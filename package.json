@@ -1,0 +1,16 @@
+{
+  "name": "liri-search",
+  "version": "1.0.0",
+  "description": "Search for Spotify Music, Concerts, and Movies.",
+  "main": "liri.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Wei Jiang",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^7.0.0",
+    "moment": "^2.24.0",
+    "node-spotify-api": "^1.0.7"
+  }
+}
