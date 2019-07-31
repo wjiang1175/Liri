@@ -14,12 +14,12 @@ var movieUrl = "http://www.omdbapi.com/?t=" + search + "&y=&plot=short&apikey=tr
 
 switch (category) {
 
-    case ("spotify"):
-        spotifySearch();
-        break;
-
     case ("band"):
         bandSearch();
+        break;
+
+    case ("spotify"):
+        spotifySearch();
         break;
 
     case ("movie"):
@@ -29,19 +29,32 @@ switch (category) {
     case ("do-what-i-say"):
         randomtext();
         break;
+
     default: 
         console.log("Please type the category you want to search (spotify, band, movie)")
 
     
 }
 
-function randomtext(){
-    fs.readFile('random.txt', 'utf8', function (err, data){
-        if(err){
+function randomtext() {
+    fs.readFile('random.txt', 'utf8', function (err, data) {
+        if (err) {
             return console.log(err);
         }
+
         var dataArr = data.split(',');
+
         console.log(dataArr[1]);
+
+        spotify.search({ type: 'track', query: dataArr[1], limit: 1, }, function (err, data) {
+
+            console.log(data.tracks.items[0].artists[0].name);
+            console.log(data.tracks.items[0].preview_url);
+            console.log(search);
+            console.log(data.tracks.items[0].album.name);
+    
+        })
+
     })
 }
 
@@ -49,10 +62,8 @@ function randomtext(){
 
 function movieSearch() {
     axios.get(movieUrl).then(
-        function (err,response) {
-            if (err){
-                return console.log("Error Occured: " + "Please make sure your search is spelled correctly!")
-            }
+        function (response) {
+           
             console.log("Title: " + response.data.Title);
             console.log("Year: " + response.data.Year);
             console.log("IMBD Rating: " + response.data.imdbRating);
@@ -67,10 +78,8 @@ function movieSearch() {
 
 function bandSearch() {
     axios.get(bandUrl).then(
-        function (err,response) {
-            if (err){
-                return console.log("Error Occured: " + "Please make sure your search is spelled correctly!")
-            }
+        function (response) {
+            
             console.log(response.data[0].venue.name);
             console.log(response.data[0].venue.country + ", " + response.data[0].venue.city);
             console.log(moment(response.data[0].datetime).format("L"));
